@@ -1,0 +1,36 @@
+function DrawHeart
+close all;
+ezplot('x^2+(y-(x^2)^(1/3))^2=9',[-5,5],[-3.5,4.5]);
+figure(2);
+ezplot('-x^2*y^3+(x^2+y^2-1)^3=0',[-1.5,1.5]);
+figure(3);
+ezplot('17*x.^2-16*abs(x).*y+17*y.^2=200',[-4.5,4.5]);
+figure(4);
+x=linspace(-2,2,1000);
+y1=sqrt(2*sqrt(x.^2)-x.^2);
+y2=-2.14*sqrt(sqrt(2)-sqrt(abs(x)));
+plot(x,y1,'b',x,y2,'b');
+title('$$f(x)=\sqrt{2\sqrt{x^{2}}-x^{2}},~~g(x)=-2.14\sqrt{\sqrt{2}-\sqrt{|x|}}$$','interpreter','latex');
+axis([-2.5,2.5,-3,1.5]);
+figure(5);
+t=linspace(-6,6,1000);
+x=16*(sin(t)).^3;
+y=13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t);
+plot(x,y);
+title('$$x=16(sint)^3,~~y=13cost-5cos(2t)-2cos(3t)-cos(4t)$$','interpreter','latex');
+figure(6);
+f=@(x,y,z)(x.^2+ (9./4).*y.^2 + z.^2 - 1).^3 - x.^2.*z.^3 - (9./80).*y.^2.*z.^3;
+[x,y,z]=meshgrid(linspace(-3,3));
+val=f(x,y,z);
+[p,v]=isosurface(x,y,z,val,0);
+patch('faces',p,'vertices',v,'facevertexcdata',jet(size(v,1)),'facecolor','w','edgecolor','flat');
+view(3);grid on;axis equal;
+title('(x^2+ 9y^2/4 + z^2- 1)^3 - x^2z^3 - 9y^2z^3/80=0');
+figure(7);
+f=@(x,y,z)(x.^2+ (9./4).*y.^2 + z.^2 - 1).^3 - x.^2.*z.^3 - (9./80).*y.^2.*z.^3;
+[x,y,z]=meshgrid(linspace(-1.5,1.5));
+val=f(x,y,z);
+isosurface(x,y,z,val,0); 
+axis equal;view(3);colormap([1 0.2 0.2]);
+title('(x^2+ 9y^2/4 + z^2- 1)^3 - x^2z^3 - 9y^2z^3/80=0');
+end
