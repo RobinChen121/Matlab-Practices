@@ -1,2 +1,2 @@
-# Matlab-for-fun
-Use Matlab to do some funny coding
+# Matlab-practises
+Use Matlab to do various coding
