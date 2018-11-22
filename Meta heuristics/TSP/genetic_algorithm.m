@@ -1,6 +1,6 @@
 function gaTSP
 
-CityNum=10;
+CityNum=30;
 [dislist,Clist]=tsp(CityNum);
 
 inn=100; %初始种群大小
