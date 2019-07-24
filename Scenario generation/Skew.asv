@@ -1,0 +1,9 @@
+function skew = Skew(d, p)
+
+mean = Mean(d, p);
+variance = Variance(d, p);
+T = length(d);
+for i = 1 : T
+    
+end
+end
