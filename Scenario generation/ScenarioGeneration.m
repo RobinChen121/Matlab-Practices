@@ -15,10 +15,14 @@ iniPossibility = [0.2, 0.2, 0.2, 0.2, 0.2];
 T = length(iniDemand);
 Aeq =  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
 beq = 1;
-x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, zeros(1, 2*T),[]);
+x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, ones(1, 2*T)*0.01, []);
 d = x(1 : T);
 p = x(T + 1 : 2*T);
-disp(d);
-disp(p);
+d
+p
+fprintf('mean = %.2f\n', Mean(d, p));
+fprintf('variance = %.2f\n', Variance(d, p));
+fprintf('skew = %.2f\n', Skew(d, p));
+fprintf('kurt = %.2f\n', Kurt(d, p));
 end
 
