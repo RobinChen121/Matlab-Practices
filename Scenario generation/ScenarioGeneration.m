@@ -9,17 +9,19 @@ function ScenarioGeneration
 % skewness = 1.06
 % kurosis = 4.35
 
-iniDemand = [400, 300, 100, 500, 600];
+iniDemand = [50, 300, 100, 80, 600];
 iniPossibility = [0.2, 0.2, 0.2, 0.2, 0.2];
 
 T = length(iniDemand);
 Aeq =  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
 beq = 1;
-x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, ones(1, 2*T)*0.01, []);
+ub = [10000*ones(1,T), 0.5*ones(1, T)];
+[x, fval] = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, ones(1, 2*T)*0.01, ub);
 d = x(1 : T);
 p = x(T + 1 : 2*T);
 d
 p
+fprintf('fit value = %.2f\n', fval);
 fprintf('mean = %.2f\n', Mean(d, p));
 fprintf('variance = %.2f\n', Variance(d, p));
 fprintf('skew = %.2f\n', Skew(d, p));

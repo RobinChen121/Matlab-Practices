@@ -13,8 +13,8 @@ varianceE = Variance(d, p);
 skewE = Skew(d, p);
 kurtE = Kurt(d, p);
 
-obj = 0.25*(meanE - mean)^2 + 0.25*(varianceE - variance)^2 + 0.25*(skewE - skew)^2 ...
-        + 0.25*(kurtE - kurt)^2;
+obj = 0.01*(meanE - mean)^2 + 0.8*(varianceE - variance)^2 + 0.8*(skewE - skew)^2 ...
+        + 50*(kurtE - kurt)^2;
 
 
 end
