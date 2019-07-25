@@ -17,12 +17,15 @@ Aeq =  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
 beq = 1;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, zeros(1, 2*T),[]);
 d = x(1 : T);
 p = x(T + 1 : 2*T);
 disp(d);
 disp(p);
 =======
+=======
+>>>>>>> parent of 9b61c77... update scenario realization
 =======
 >>>>>>> parent of 9b61c77... update scenario realization
 x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility], [], [], Aeq, beq, ones(1, 2*T)*0.01, []);
