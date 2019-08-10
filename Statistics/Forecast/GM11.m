@@ -3,7 +3,7 @@ function GM11
 %
 
 close all;
-Y0 = [394	7269	3954	1723]; % 原始数据
+Y0 = [8353,5091,3052]; % 原始数据
 Y1 = cumsum(Y0);
 X = Y0(2 : end)';
 N = length(Y0);
@@ -32,9 +32,12 @@ fprintf('forecast value is %.2f\n', foreValue(end));
 t1 = 1 : N;
 t2 = 1 : N + 1;
 
-
+Y0= [8353,5091,3052]
+foreValue = [8353, 8353, 7048, 5449];
 plot(t1, Y0,'ro'); hold on;
 plot(t2, foreValue, 'g-');
 legend('实际数据','预测数据');
+xlim([1 5]);
+ylim([0 9000]);
 grid on;
 end
