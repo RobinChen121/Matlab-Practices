@@ -56,7 +56,7 @@ disp(bestRoute(index, :));
 end
 
 %------------------------------------------------
-%计算所有染色体的适应度
+% 计算所有染色体的适应度
 function [chromoValues, cumulativeProbs] = calPopulationValue(s, dislist)
 inn = size(s, 1);  % 读取种群大小
 chromoValues = zeros(inn, 1);
@@ -65,19 +65,20 @@ for i = 1 : inn
 end
 chromoValues = 1./chromoValues'; % 因为让距离越小，选取的概率越高，所以取距离倒数
 
-%根据个体的适应度计算其被选择的概率
+% 根据个体的适应度计算其被选择的概率
 fsum = 0;
 for i = 1 : inn
-    fsum = fsum + chromoValues(i)^15;   % 让适应度越好的个体被选择概率越高
+    % 乘以15次方的原因是让好的个体被选取的概率更大（因为适应度取距离的倒数，若不乘次方，则个体相互之间的适应度差别不大），换成一个较大的数也行
+    fsum = fsum + chromoValues(i)^15;   
 end
 
-%计算单个概率
+% 计算单个概率
 probs = zeros(inn, 1);
 for i = 1: inn
     probs(i) = chromoValues(i)^15 / fsum;
 end
 
-%计算累积概率
+% 计算累积概率
 cumulativeProbs = zeros(inn,1);
 cumulativeProbs(1) = probs(1);
 for i = 2 : inn
@@ -104,7 +105,7 @@ for i = 1 : 2
        r = rand;  % 产生一个随机数
        prand = cumulatedPro - r;
        j = 1;
-       while prand(j)<0
+       while prand(j) < 0
            j = j + 1;
        end
    end
@@ -112,7 +113,7 @@ end
 end
 
 %------------------------------------------------
-%“交叉”操作
+% “交叉”操作
 function crossedChromos = cross(population, selectedChromoNums, crossProb)
 length = size(population, 2); % 染色体的长度
 crossProbc = crossMuteOrNot(crossProb);  %根据交叉概率决定是否进行交叉操作，1则是，0则否
@@ -157,7 +158,7 @@ end
 %“变异”操作
 % choromo 为一条染色体
 function snnew = mut(chromo,muteProb)
-length = size(chromo,2); % 染色体的的长度
+length = size(chromo, 2); % 染色体的的长度
 snnew = chromo;
 muteProbm = crossMuteOrNot(muteProb);  % 根据变异概率决定是否进行变异操作，1则是，0则否
 if muteProbm == 1
@@ -171,9 +172,9 @@ end
 end
 
 % 根据变异或交叉概率，返回一个 0 或 1 的数
-function crossProbc = crossMuteOrNot(crossProb)
+function crossProbc = crossMuteOrNot(crossMuteProb)
 test(1: 100) = 0;
-l = round(100 * crossProb);
+l = round(100 * crossMuteProb);
 test(1 : l) = 1;
 n = round(rand * 99) + 1;
 crossProbc = test(n);
@@ -200,27 +201,27 @@ end
 function drawTSP(Clist, route, generationValue, generationNum,isBestGeneration)
 CityNum = size(Clist, 1);
 for i = 1 : CityNum - 1
-    plot([Clist(route(i),1),Clist(route(i+1),1)],[Clist(route(i),2),Clist(route(i+1),2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
-    text(Clist(route(i),1),Clist(route(i),2),['  ',int2str(route(i))]);
-    text(Clist(route(i+1),1),Clist(route(i+1),2),['  ',int2str(route(i+1))]);
+    plot([Clist(route(i), 1),Clist(route(i + 1), 1)], [Clist(route(i),2),Clist(route(i+1),2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
+    text(Clist(route(i), 1),Clist(route(i), 2), ['  ', int2str(route(i))]);
+    text(Clist(route(i+1), 1),Clist(route(i + 1), 2), ['  ', int2str(route(i+1))]);
     hold on;
 end
 plot([Clist(route(CityNum), 1), Clist(route(1), 1)], [Clist(route(CityNum), 2), Clist(route(1), 2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
 title([num2str(CityNum),'城市TSP']);
 if isBestGeneration == 0 && CityNum ~= 10
-    text(5, 5,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
+    text(5, 5, ['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
 else
-    text(5, 5,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ',num2str(generationNum),' 代达到']);
+    text(5, 5, ['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ',num2str(generationNum),' 代达到']);
 end
 if CityNum == 10  % 因为文字显示位置不一样，所以将城市数目为 10 时单独编写
     if isBestGeneration == 0
-        text(0, 0,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
+        text(0, 0, ['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
     else
-        text(0, 0,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ', num2str(generationNum),' 代达到']);
+        text(0, 0, ['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ', num2str(generationNum),' 代达到']);
     end
 end
 hold off;
-pause(0.01);
+pause(0.005);
 end
 
 %------------------------------------------------
