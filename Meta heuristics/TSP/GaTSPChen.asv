@@ -126,27 +126,27 @@ if crossProbc == 1
    middle = crossedChromos(1,chb1+1:chb2); % 两条染色体 chb1 到 chb2 之间互换位置
    crossedChromos(1,chb1 + 1 : chb2)= crossedChromos(2, chb1 + 1 : chb2);
    crossedChromos(2,chb1 + 1 : chb2)= middle;
-   for i = 1 : chb1 % 看交叉后，染色体上是否有相同编码的情况（路径上重复出现两个城市）。若有，则该编码不参与交叉
+   for i = 1 : chb1 % 看交叉后，染色体上是否有相同编码的情况（路径上重复出现两个城市。若有，则该相同的编码不参与交叉
        while find(crossedChromos(1,chb1 + 1: chb2) == crossedChromos(1, i))
-           location = find(crossedChromos(1,chb1 + 1: chb2) == crossedChromos(1, i));
-           y = crossedChromos(2,chb1 + location);
-           crossedChromos(1, i) = y;
+           zhi = find(crossedChromos(1,chb1 + 1: chb2) == crossedChromos(1, i));
+           y = crossedChromos(2,chb1 + zhi);
+           crossedChromos(1,i) = y;
        end
        while find(crossedChromos(2,chb1 + 1 : chb2) == crossedChromos(2, i))
-           location = find(crossedChromos(2, chb1 + 1 : chb2) == crossedChromos(2, i));
-           y = crossedChromos(1, chb1 + location);
+           zhi = find(crossedChromos(2, chb1 + 1 : chb2) == crossedChromos(2, i));
+           y = crossedChromos(1, chb1 + zhi);
            crossedChromos(2, i) = y;
        end
    end
    for i = chb2 + 1 : length
        while find(crossedChromos(1, 1 : chb2) == crossedChromos(1, i))
-           location = logical(crossedChromos(1, 1 : chb2) == crossedChromos(1, i));
-           y = crossedChromos(2, location);
+           zhi = logical(crossedChromos(1, 1 : chb2) == crossedChromos(1, i));
+           y = crossedChromos(2, zhi);
            crossedChromos(1, i) = y;
        end
        while find(crossedChromos(2, 1 : chb2) == crossedChromos(2, i))
-           location = logical(crossedChromos(2, 1 : chb2) == crossedChromos(2, i));
-           y = crossedChromos(1, location);
+           zhi = logical(crossedChromos(2, 1 : chb2) == crossedChromos(2, i));
+           y = crossedChromos(1, zhi);
            crossedChromos(2, i) = y;
        end
    end
@@ -179,49 +179,6 @@ n = round(rand * 99) + 1;
 crossProbc = test(n);
 end
 
-%------------------------------------------------
-% 计算一条染色体的适应度
-% dislist 为所有城市相互之间的距离矩阵
-% chromo 为一条染色体，即一条路径
-function chromoValue = CalDist(dislist, chromo)
-DistanV = 0;
-n = size(chromo, 2); % 染色体的长度
-for i = 1 : (n - 1)
-    DistanV = DistanV + dislist(chromo(i), chromo(i + 1));
-end
-DistanV = DistanV + dislist(chromo(n), chromo(1));
-chromoValue = DistanV;
-end
-
-%------------------------------------------------
-% 画图
-% Clist 为城市坐标
-% route 为一条路径
-function drawTSP(Clist, route, generationValue, generationNum,isBestGeneration)
-CityNum = size(Clist, 1);
-for i = 1 : CityNum - 1
-    plot([Clist(route(i),1),Clist(route(i+1),1)],[Clist(route(i),2),Clist(route(i+1),2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
-    text(Clist(route(i),1),Clist(route(i),2),['  ',int2str(route(i))]);
-    text(Clist(route(i+1),1),Clist(route(i+1),2),['  ',int2str(route(i+1))]);
-    hold on;
-end
-plot([Clist(route(CityNum), 1), Clist(route(1), 1)], [Clist(route(CityNum), 2), Clist(route(1), 2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
-title([num2str(CityNum),'城市TSP']);
-if isBestGeneration == 0 && CityNum ~= 10
-    text(5, 5,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
-else
-    text(5, 5,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ',num2str(generationNum),' 代达到']);
-end
-if CityNum == 10  % 因为文字显示位置不一样，所以将城市数目为 10 时单独编写
-    if isBestGeneration == 0
-        text(0, 0,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
-    else
-        text(0, 0,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ', num2str(generationNum),' 代达到']);
-    end
-end
-hold off;
-pause(0.01);
-end
 
 %------------------------------------------------
 %城市位置坐标
@@ -275,4 +232,48 @@ if n == 75
     end
     cityn = city75;
 end
+end
+
+%------------------------------------------------
+% 计算一条染色体的适应度
+% dislist 为所有城市相互之间的距离矩阵
+% chromo 为一条染色体，即一条路径
+function F = CalDist(dislist, chromo)
+DistanV = 0;
+n = size(chromo, 2); % 染色体的长度
+for i = 1 : (n - 1)
+    DistanV = DistanV + dislist(chromo(i), chromo(i + 1));
+end
+DistanV = DistanV + dislist(chromo(n), chromo(1));
+F = DistanV;
+end
+
+%------------------------------------------------
+% 画图
+% Clist 为城市坐标
+% route 为一条路径
+function drawTSP(Clist, route, generationValue, generationNum,isBestGeneration)
+CityNum = size(Clist, 1);
+for i = 1 : CityNum - 1
+    plot([Clist(route(i),1),Clist(route(i+1),1)],[Clist(route(i),2),Clist(route(i+1),2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
+    text(Clist(route(i),1),Clist(route(i),2),['  ',int2str(route(i))]);
+    text(Clist(route(i+1),1),Clist(route(i+1),2),['  ',int2str(route(i+1))]);
+    hold on;
+end
+plot([Clist(route(CityNum), 1), Clist(route(1), 1)], [Clist(route(CityNum), 2), Clist(route(1), 2)],'ms-','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','g');
+title([num2str(CityNum),'城市TSP']);
+if isBestGeneration == 0 && CityNum ~= 10
+    text(5, 5,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
+else
+    text(5, 5,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ',num2str(generationNum),' 代达到']);
+end
+if CityNum == 10  % 因为文字显示位置不一样，所以将城市数目为 10 时单独编写
+    if isBestGeneration == 0
+        text(0, 0,['第 ',int2str(generationNum),' 代','  最短距离为 ', num2str(generationValue)]);
+    else
+        text(0, 0,['最终搜索结果：最短距离 ',num2str(generationValue),'， 在第 ', num2str(generationNum),' 代达到']);
+    end
+end
+hold off;
+pause(0.01);
 end
