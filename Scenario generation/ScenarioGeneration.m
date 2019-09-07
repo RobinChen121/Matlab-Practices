@@ -1,4 +1,4 @@
-@@ -4,22 +4,26 @@ function ScenarioGeneration
+function ScenarioGeneration
 % Management Science
 %   
 
