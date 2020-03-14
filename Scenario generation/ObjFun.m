@@ -7,7 +7,7 @@ function obj = ObjFun(x)
 % kurt = 2.78;
 
 mean = 467.25;
-variance = 99.42;
+variance = 99422;
 skew = 1.06;
 kurt = 4.35;
 
@@ -19,8 +19,8 @@ varianceE = Variance(d, p);
 skewE = Skew(d, p);
 kurtE = Kurt(d, p);
 
-obj = 0.25*(meanE - mean)^2 + 0.25*(varianceE - variance)^2 + 0.25*(skewE - skew)^2 ...
-        + 0.25*(kurtE - kurt)^2;
+obj = 0.1*(meanE - mean)^2 + 0.1*(varianceE - variance)^2 + 0.4*(skewE - skew)^2 ...
+        + 0.4*(kurtE - kurt)^2;
 
 
 end
