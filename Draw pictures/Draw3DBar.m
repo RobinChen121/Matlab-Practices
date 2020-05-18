@@ -1,7 +1,7 @@
 function Draw3DBar
 
 x = 0:10;
-B = 25:9:51;
+B = 23:2:49;
 Q = [0	0	7	9	11	13	15	17	18	18	18	18	18	18
 0	0	7	9	11	13	15	17	17	17	17	17	17	17
 0	0	7	9	11	13	15	16	16	16	16	16	16	16
@@ -18,9 +18,9 @@ Q = [0	0	7	9	11	13	15	17	18	18	18	18	18	18
 bar3(Q);
 set(gca,'XTickLabel',B)
 set(gca,'YTickLabel',x)
-xlabel('B');
-ylabel('x');
-zlabel('Q^\ast');
+xlabel('R', 'FontWeight', 'bold');
+ylabel('x', 'FontWeight', 'bold');
+zlabel('Q^\ast', 'FontWeight', 'bold');
 
 % figure()
 % y = Q;
