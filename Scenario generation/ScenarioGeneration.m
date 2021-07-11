@@ -5,8 +5,11 @@ function ScenarioGeneration
 
 
 
-iniDemand = [100, 200, 300, 500, 600];
-iniPossibility = [0.2, 0.2, 0.2, 0.2, 0.2];
+iniDemand = [50, 25, 20, 10, 30];
+iniPossibility = [0.4, 0.1, 0.1, 0.3, 0.3];
+
+% iniDemand = [100, 200, 300, 500, 600];
+% iniPossibility = [0.2, 0.2, 0.2, 0.2, 0.2];
 
 T = length(iniDemand);
 % mean = 467.25;
@@ -14,11 +17,12 @@ T = length(iniDemand);
 % worstDemand = mean - 2.5*sqrt(variance);
 % Aeq =  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1; 1, zeros(1, 2*T - 1); zeros(1, T), 1, zeros(1, T-1)];
 % beq = [1; worstDemand; 0.01];
-Aeq =  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1,0, 0, 0, 0, 0,0, 0, 0, 0, 0];
+Aeq =  [zeros(1,T), ones(1,T), zeros(1, 2*T)];
 beq = 1;
 lb = ones(1, 4*T)*0.1;
+ub = [ones(1,T)*1000, ones(1,T)*0.6, ones(1, 2*T)*1000];
 % x = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility, iniDemand,iniDemand], [], [], Aeq, beq, lb, []);
-[x, fval] = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility, iniDemand,iniDemand], [], [], Aeq, beq, lb, []);
+[x, fval] = fmincon(@(x)ObjFun(x), [iniDemand, iniPossibility, iniDemand,iniDemand], [], [], Aeq, beq, lb, ub);
 d = x(1 : T);
 p = x(T + 1 : 2*T);
 d2 = x(2*T+1 : 3*T);
@@ -43,3 +47,11 @@ fprintf('skew3 = %.2f\n', Skew(d3, p));
 fprintf('kurt = %.2f\n', Kurt(d, p));
 fprintf('kurt2 = %.2f\n', Kurt(d2, p));
 fprintf('kurt3 = %.2f\n', Kurt(d3, p));
+
+% demand scenario:   27.4903  129.8830   39.4457
+% 
+%    56.6327  235.1054   56.6326
+% 
+%    67.8338   26.5954   26.5954
+% 
+% possibility:    0.2842    0.1158    0.6000
