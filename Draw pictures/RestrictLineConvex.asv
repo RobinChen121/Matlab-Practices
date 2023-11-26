@@ -16,7 +16,7 @@ fmesh(f)
 xlabel('x');
 ylabel('y');
 zlabel('z');
-title('$f(x) = x_1^2+x_2^2$', 'interpreter', 'latex')
+title('$f(x) = x_1^2+y^2$', 'interpreter', 'latex')
 
 hold on;
 x0 = [0  0];
@@ -25,7 +25,7 @@ patch([-5 -5 5 5], [-5 -5 5 5], [-10 50 50 10], 'r')
 
 figure(3)
 fplot(@(t) (2*t).^2, [-2 2]);
-title('$f(t)=f(x+tv)=4t^2$', 'interpreter', 'latex')
+title('')
 end
 
 
